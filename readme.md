@@ -5,11 +5,11 @@ This library provides a base class for your ESP32 with the filesystem with SPIFS
 As a base class, you should create a subclass with the features that your board will provide
 
 ### How to subclass yESP32
-Lets put as example by creating a webserver (with [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)) that will serve only one page with a "hello world" message on it
+Lets put an example by creating a webserver (with [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)) that will serve only one page with a "hello world" message on it
 
 #### Machine.h
 First we should create a headers file:
-```cpp {.line-numbers}
+```cpp
 #include <ESPAsyncWebServer.h>
 
 #include "yESP32.h"
@@ -27,11 +27,11 @@ class Machine : public yESP32 {
 ```
 As you can see, the private section of the subclass has `_webserver`, `setupRoutes` and `tmplProcessor`. The first is the webserver, the second is the function that will set the routes for the webserver (in our case only one) and the last is the processor function if your want to use templates (see the [webserver documentation](https://github.com/me-no-dev/ESPAsyncWebServer#respond-with-content-using-a-callback-containing-templates))
 
-The public section defines the constructor that will use the base's one and init to start the webserver, setup the routes (by using the setupRoutes) and start the webserver
+The public section defines the constructor that will use the base's one and `init` to start the webserver, setup the routes (by using the `setupRoutes`) and start the webserver
 
 #### Machine.cpp
 Next step is to create the code for the new subclass
-```cpp {.line-numbers}
+```cpp
 #include <ESPAsyncWebServer.h>
 
 #include "machine.h"
@@ -69,11 +69,11 @@ void Machine::setupRoutes() {
 ```
 In this example, `init` creates the webserver, setup the routes with the function that the subclass provides and starts the webserver
 
-`tmplProcessor` defines a variable `My_IP` that will be parsed on your templates. You can add as much variables as you need or even define and use more than one processor. Please note that since webserver's `on` processor needs to be an static function and the examples uses the machine's IP address, it should be passed inside a lambda function with `this` binded
+`tmplProcessor` defines a variable `My_IP` that will be parsed on your templates. You can add as much variables as you need or even define and use more than one processor. Please note that since webserver's `on` processor needs to be an static function and the example uses the machine's IP address, it should be passed inside a lambda function with `this` binded
 
 `setupRoutes` defines the routes of your server. In this example, only one routes has been defined `/` that will load the file on `/site/index.html` and will parse it with the defined processor
 
-As an example, this function defines to serve static files from `/site/` folder of your ESP32 filesystem and shows how to process not found errors
+As an example, this function defines to serve static files from `/site/` folder of your ESP32 filesystem and shows how to process `not found` errors
 
 #### Data folder
 As you have noticed in the example, we are using the webserver's files (html, js, css and any other) as static files in the ESP32 filesystem. In this example only index.html will be described sinces from here on is not different to any other webserver
@@ -100,6 +100,42 @@ As you have noticed in the example, we are using the webserver's files (html, js
 As you can see, the example uses [Bulma](https://bulma.io/) for the styles
 
 You should expect to see a webpage with `Hello world from <the machine's IP>`
+
+## Use the subclass
+To use the code defined you could do something around this:
+```cpp
+#include "machine.h"
+
+String APName = "<Put here the name of the access point>";
+String APPassword = "<Put here the password of the access point>";
+Machine machine(true, false, APName, APPassword, true);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Machine setup...");
+  machine.setup();
+  Serial.println("Machine init...");
+  machine.init(80);
+  Serial.println("Setup finished...");
+}
+
+void loop() {
+  machine.loop();
+
+  delay(500);
+}
+```
+The ESP32 can be used as access point or connected to another network
+
+In any case, `APName` will be the name of the access point for the ESP32 if you decide not to connect it to a previous network or the name of the network you want to connect it, `APPassword` will be the password
+
+In this case, the example inits the machine with filesystem, to another network and with OTA
+
+Then in the setup section you need to run its `setup` and `init` the webserver (in this example will be on port 80)
+
+As the example uses OTA, you must run the `loop` function on the machine that will run the update
+
+If you need to define more functionality on the loop of your program, override `loop` in your subclass
 
 ## Contribute
 Feel free to comment and contribute on this library
