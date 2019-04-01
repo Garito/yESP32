@@ -1,0 +1,18 @@
+#######################################
+# Syntax Coloring Map For yESP32
+#######################################
+ 
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+ 
+yESP32 KEYWORD1
+ 
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setup KEYWORD2
+hasFS KEYWORD2
+loop KEYWORD2
+myIP KEYWORD2
