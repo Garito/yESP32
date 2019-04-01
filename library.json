@@ -1,0 +1,24 @@
+{
+  "name":"yESP32",
+  "description":"ESP32 base class with SPIFFS, WIFI and OTA bootstraped",
+  "keywords":"esp32,base_class,SPIFFS,WIFI,OTA",
+  "authors":
+  {
+    "name": "Garito",
+    "maintainer": true
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Garito/yESP32"
+  },
+  "version": "0.1.0",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": ["espressif8266", "espressif32"],
+  "dependencies": [
+    {
+      "name": "ESPAsyncWebServer"
+    }
+  ]
+}
