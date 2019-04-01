@@ -19,6 +19,7 @@
   "dependencies": [
     {
       "name": "ESPAsyncWebServer",
+      "type": "git",
       "url": "https://github.com/me-no-dev/ESPAsyncWebServer"
     }
   ]
