@@ -105,6 +105,6 @@ void yESP32::setupOTA() {
   ArduinoOTA.begin();
 }
 
-virtual void yESP32::loop() {
+void yESP32::loop() {
   ArduinoOTA.handle();
 }
