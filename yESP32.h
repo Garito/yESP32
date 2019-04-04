@@ -12,7 +12,7 @@ class yESP32 {
     yESP32(bool fs, bool ap, String ssid, String password, bool OTA);
     void setup();
     bool hasFS();
-    void loop();
+    virtual void loop();
     IPAddress myIP();
   private:
     bool _fs;
